@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript">
+       // var myJSON = '#TEST_JSON';
+        var data = '[{"label":"NAG","value":53},{"label":"APME","value":24},{"label":"LACR","value":12},{"label":"EA","value":12}]';
+        //var id = $.parseJSON(myJSON);
+        //alert(myJSON);
+
+      google.charts.load('current', {'packages':['treemap']});
+      google.charts.setOnLoadCallback(drawTreeMapChart);
+         function drawTreeMapChart() {
+       
+
+       // Pushing the header to load the pie chart
+      
+     TreeDATA(data);
+     alert(data);
+
+            
+              
+     
+}  
+   function TreeDATA(data) {  
+          var dataTableTree = null;
+       var dataArrayTree = [];            
+                     if(data.length!=0)
+                           {
+                           dataArrayTree.push("Location");
+                           dataArrayTree.push("Parent");
+                           dataArrayTree.push("Forecast");
+                           dataArrayTree.push("ForecastColor");
+                           var superArrayTree = [];
+                           superArrayTree.push(dataArrayTree);
+ 
+                           dataArrayTree = [];
+                           dataArrayTree.push("Regional Breakdown");
+                           dataArrayTree.push(null);
+                           dataArrayTree.push(0);
+                           dataArrayTree.push(0);
+                           superArrayTree.push(dataArrayTree);
+                           $("#ForecastRevenueTreeMap").empty();
+                          
+                           for ( var key in data) {
+                                  var item = data[key];
+                                  if(item.value!=0)
+                                  {
+                                         dataArrayTree = [];
+                                         dataArrayTree.push(item.label + " " + item.value + '%');
+                                         dataArrayTree.push("Regional Breakdown");
+                                         dataArrayTree.push(item.value);
+                                         // dataArrayTree.push(key*65);
+                                         if (key == 0)
+                                                dataArrayTree.push(543);
+                                         if (key == 1)
+                                                dataArrayTree.push(-30);
+                                         if (key == 2)
+                                                dataArrayTree.push(212);
+                                         if (key == 3)
+                                                dataArrayTree.push(345);
+                                         superArrayTree.push(dataArrayTree);
+                                  }
+                           }
+                           dataTableTree = google.visualization
+                                         .arrayToDataTable(superArrayTree);
+                          
+                           var treeMapOptions = {
+                                         headerHeight : 0,
+                                         showScale : false,
+                                         width : '60%',
+                                         height : 180,
+                                         title : 'Regional Rev. Breakdown',
+                                         titleTextStyle : {
+                                                top : -1,
+                                                color : '#4B4B4B',
+                                                fontName : 'Segoe UI',
+                                                fontSize : '14'
+                                         },
+                                         chartArea : {
+                                                left : -5,
+                                                top : 20,
+                                                width : '60%',
+                                                height : '100%'
+                                         },
+                                         // backgroundColor: '#F6F6F6',
+                                         textStyle : {
+                                                color : 'transparent'
+                                         },
+                                  };
+ 
+                                  var tree = new google.visualization.TreeMap(document
+                                                .getElementById('ForecastRevenueTreeMap'));
+                                  // tree.draw(dataTableTree, treeMapOptions);
+ 
+                                  if (dataTableTree != null) {
+                                         if (dataTableTree.getNumberOfRows() == 0) {
+                                                $("#treemapArea").empty();
+                                                $("#ForecastRevenueTreeMap").empty();
+                                                $("#ForecastRevenueTreeMap").append("No Data available");
+                                         } else {
+                                                tree.draw(dataTableTree, treeMapOptions);
+                                         }
+                                  }
+                                  google.visualization.events.addListener(tree, 'onmouseover', onReady);
+                                  function onReady() {
+                                         $("text:contains(" + treeMapOptions.title + ")").attr({
+                                                'x' : '5',
+                                                'y' : '10'
+                                         });
+                                         // treeMapOptions.textStyle:{color: 'transparent'};
+                                  }
+ 
+                                  
+                                  
+                           }
+                     else
+                           {
+                           $("#ForecastRevenueTreeMap").empty();
+                           $("#ForecastRevenueTreeMap").append("No Data available");
+                           }                                
+              }
+ google.setOnLoadCallback(drawTreeMapChart);
+
+  //  tree = new google.visualization.TreeMap(document.getElementById(drawTreeMapChart));
+//         tree.draw(data, {
+//           minColor: '#f00',
+//           midColor: '#ddd',
+//           maxColor: '#0d0',
+//           headerHeight: 15,
+//           fontColor: 'black',
+//           showScale: true
+//         });
+
+ 
+    </script>
+  </head>
+</html>
